@@ -149,7 +149,7 @@ phases:
 reports: #New
   jUnitReports: # CodeBuild will create a report group called "SurefireReports".
     files: #Store all of the files
-      - "**/build/test-results/test/TEST-*.xml"
+      - "**/TEST-*.xml"
     # base-directory: "build/test-results/test" # Location of the reports
 artifacts:
   files:
