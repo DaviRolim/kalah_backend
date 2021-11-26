@@ -17,7 +17,7 @@ class KalahaGameApplicationTests {
 	@Test
 	void firstPlayerToPlayShouldBePlayer1() {
 		board.initialize();	
-		assertEquals(board.getCurrentPlayerAsString(), "Player1");
+		assertEquals(board.getCurrentPlayerAsString(), "Player2");
 
 	}
 
