@@ -146,11 +146,11 @@ phases:
             docker push $repo;
           done;
         done;
-  reports: #New
-    jUnitReports: # CodeBuild will create a report group called "SurefireReports".
-      files: #Store all of the files
-        - "**/*"
-      base-directory: "build/reports/tests/test" # Location of the reports
+# reports: #New
+#   jUnitReports: # CodeBuild will create a report group called "SurefireReports".
+#     files: #Store all of the files
+#       - "**/*"
+#     base-directory: "build/reports/tests/test" # Location of the reports
 
 artifacts:
   files:
