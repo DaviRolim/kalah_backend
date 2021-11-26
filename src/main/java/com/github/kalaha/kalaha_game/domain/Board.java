@@ -88,7 +88,7 @@ public class Board {
 		}
     }
 
-    private boolean isMoveValid(int index) {
+    public boolean isMoveValid(int index) {
         if(pits[index] > 0)
         if(hasUnitInPit(index) && 
             (currentPlayer == Players.PLAYER1 && isPlayer1Pit(index)) ||

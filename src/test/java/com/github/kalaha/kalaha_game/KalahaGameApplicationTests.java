@@ -14,7 +14,6 @@ class KalahaGameApplicationTests {
 	@Autowired
 	Board board;
 
-	// TODO test simple things in like player score, total units in pit..
 	@Test
 	void firstPlayerToPlayShouldBePlayer1() {
 		board.initialize();	
@@ -64,6 +63,39 @@ class KalahaGameApplicationTests {
 		board.moveUnits(5); // {0,5,5,5,1...} it was zero and now finished with 1 unit in pit
 		assertEquals(26, board.getPlayer1Score()); // adding the last unit after moving the last
 		assertEquals(true, board.isGameOver()); // 1 + 4 from oposite side
+	}
+
+	@Test
+	void playerScoreShouldBeTheSameNumberAsKalahUnitsInPlayerPit() {
+		board.initialize();
+		int[] pitsToSet  = {0,0,0,0,0,1,25,0,5,3,2,5,0,7};
+		board.setPits(pitsToSet);
+		assertEquals(25, board.getPlayer1Score());
+		assertEquals(7, board.getPlayer2Score());
+	}
+
+	@Test
+	void playerCantChoosePitFromOpositeSide() {
+		board.initialize(); // initialize and current player is Player1 (first 6 indexes)
+		int[] pitsToSet  = {0,0,0,0,0,1,25,0,5,3,2,5,0,7};
+		board.setPits(pitsToSet);
+		assertEquals(false, board.isMoveValid(9));
+	}
+
+	@Test
+	void playerCantChoosePitIfIPitHasNoUnits() {
+		board.initialize(); // initialize and current player is Player1 (first 6 indexes)
+		int[] pitsToSet  = {0,0,0,0,0,1,25,0,5,3,2,5,0,7};
+		board.setPits(pitsToSet);
+		assertEquals(false, board.isMoveValid(0));
+	}
+
+	@Test
+	void playerCanChoosePitIfItsTheirSideOfBoardAndHasUnitsInSelectedPit() {
+		board.initialize(); // initialize and current player is Player1 (first 6 indexes)
+		int[] pitsToSet  = {0,0,0,0,0,1,25,0,5,3,2,5,0,7};
+		board.setPits(pitsToSet);
+		assertEquals(true, board.isMoveValid(5));
 	}
 
 }
