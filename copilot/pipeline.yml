@@ -3,7 +3,7 @@
 # For more info: https://aws.github.io/copilot-cli/docs/manifest/pipeline/
 
 # The name of the pipeline.
-name: pipeline-kalah-backend-kalah_backend
+name: pipeline-kalah-backend-kalah-backend
 
 # The version of the schema used in this template.
 version: 1
@@ -22,10 +22,9 @@ source:
 
 # This section defines the order of the environments your pipeline will deploy to.
 stages:
-    - # The name of the environment.
-      name: test
-      # Optional: flag for manual approval action before deployment.
-      # requires_approval: true
-      # Optional: use test commands to validate this stage of your build.
-      # test_commands: [echo 'running tests', make test]
-
+  - # The name of the environment.
+    name: test
+    # Optional: flag for manual approval action before deployment.
+    # requires_approval: true
+    # Optional: use test commands to validate this stage of your build.
+    # test_commands: [echo 'running tests', make test]
