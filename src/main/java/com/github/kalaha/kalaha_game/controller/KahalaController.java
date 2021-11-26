@@ -2,7 +2,6 @@ package com.github.kalaha.kalaha_game.controller;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-import com.github.kalaha.kalaha_game.domain.BoardImpl;
 import com.github.kalaha.kalaha_game.domain.Game;
 import com.github.kalaha.kalaha_game.dto.GameInfoDTO;
 
@@ -17,8 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class KahalaController {
 
-
-    private static final Logger logger = LoggerFactory.getLogger(BoardImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(KahalaController.class);
 
 	@Autowired
 	private Game game;
@@ -38,6 +36,7 @@ public class KahalaController {
 	@CrossOrigin
 	@GetMapping("/play")
 	public GameInfoDTO play(@RequestParam(value = "index") int index) {
+		// TODO No logic on Controller, move this to Game.java
 		game.makePlay(index);
 		String message = "";
 		if(game.isGameOver()) {
