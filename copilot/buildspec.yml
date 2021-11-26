@@ -15,6 +15,9 @@ phases:
   build:
     commands:
       - echo "Run your tests"
+      - ./gradlew test
+      - pwd
+      - mv ./build/test-results/test/TEST*.xml
       # - make test
   post_build:
     commands:
@@ -146,6 +149,8 @@ phases:
             docker push $repo;
           done;
         done;
+      - ls -l
+      - pwd
 # reports: #New
 #   jUnitReports: # CodeBuild will create a report group called "SurefireReports".
 #     files: #Store all of the files
