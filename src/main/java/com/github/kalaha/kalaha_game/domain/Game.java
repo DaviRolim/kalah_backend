@@ -5,28 +5,36 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Game {
-    @Autowired
-    public Board board;
 
-    public int[] startGame() {
-        board.initialize();
-        return board.getPits();
+    @Autowired BoardRepository boardRepository;
+
+    public Board startGame() {
+        Board board = new Board();
+        board.initializePits();
+        int id = boardRepository.saveGameStatusAndGetId(board, 0);
+        board.setGameId(id);
+        return board;
     }
 
-    public void makePlay(int index) {
+    public Board makePlay(int index, int gameId) {
+        Board board = boardRepository.getByGameId(gameId);
         board.executeMove(index);
+        boardRepository.saveGameStatusAndGetId(board, gameId);
+        return board;
     }
 
     public boolean isGameOver() {
-        return board.isGameOver();
+        // return board.isGameOver();
+        return false;
     }
 
     public String getWinningMessage() {
-        if(board.getPlayer1Score() > board.getPlayer2Score()) {
-            return "Congratulations! Player 1 has won!";
-        } else {
-            return "Congratulations! Player 2 has won!";
-        }
+        // if(board.getPlayer1Score() > board.getPlayer2Score()) {
+        //     return "Congratulations! Player 1 has won!";
+        // } else {
+        //     return "Congratulations! Player 2 has won!";
+        // }
+        return "TODO";
     }
 
 

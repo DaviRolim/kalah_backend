@@ -15,6 +15,7 @@ public class Board {
     public static final int NUMBER_OF_PITS = 6;
     public static final int START_UNITS = 4;
 
+    private int gameId;
     private Players currentPlayer;
     private int numberOfPits;
     private int startUnits;
@@ -25,15 +26,13 @@ public class Board {
     public Board() {
         this.numberOfPits = NUMBER_OF_PITS;
         this.startUnits = START_UNITS;
-        // this.initialize();
-    }
-
-    public void initialize() {
         this.currentPlayer = Players.PLAYER1;
         this.kalahIndexPlayer1 = numberOfPits;
         this.kalahIndexPlayer2 = numberOfPits * 2 + 1;
-        initializePits();
+        // this.initialize();
     }
+
+        
 
     public int[] getPits() {
         return pits;
@@ -47,13 +46,6 @@ public class Board {
         return pits[kalahIndexPlayer2];
     }
 
-    public String getCurrentPlayerAsString() {
-        if(currentPlayer.equals(Players.PLAYER1)) {
-            return "Player1";
-        } else {
-            return "Player2";
-        }
-    }
 
     public boolean isGameOver() {
         if(getTotalUnitsFromPlayer1Pit() == 0 || getTotalUnitsFromPlayer2Pit() == 0) {
@@ -74,9 +66,8 @@ public class Board {
             decideNextPlayer(lastPitIndex);
         }
     }
-   
 
-    private void initializePits() {
+    public void initializePits() {
         int totalPits = (numberOfPits + 1) * 2;
         pits = new int[totalPits];
         for(int i = 0; i < totalPits; i++) {
@@ -211,6 +202,26 @@ public class Board {
 
     public void setPits(int[] pits) {
         this.pits = pits;
+    }
+
+    public Players getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(int currentPlayer) {
+        this.currentPlayer = Players.PLAYER1.ordinal() == currentPlayer ?  Players.PLAYER1 : Players.PLAYER2;
+    }
+
+
+
+    public int getGameId() {
+        return gameId;
+    }
+
+
+
+    public void setGameId(int gameId) {
+        this.gameId = gameId;
     }
 
 }

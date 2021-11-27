@@ -2,6 +2,7 @@ package com.github.kalaha.kalaha_game.controller;
 
 import java.util.concurrent.atomic.AtomicLong;
 
+import com.github.kalaha.kalaha_game.domain.Board;
 import com.github.kalaha.kalaha_game.domain.Game;
 import com.github.kalaha.kalaha_game.dto.GameInfoDTO;
 
@@ -29,26 +30,21 @@ public class KahalaController {
 
 	@CrossOrigin
 	@GetMapping("/start")
-	public int[] startGame(@RequestParam(value = "name", defaultValue = "World") String name) {
+	public Board startGame(@RequestParam(value = "name", defaultValue = "World") String name) {
 		return game.startGame();
 	}
 
 	@CrossOrigin
 	@GetMapping("/play")
-	public GameInfoDTO play(@RequestParam(value = "index") int index) {
-		// TODO No logic on Controller, move this to Game.java
-		game.makePlay(index);
+	public Board play(@RequestParam(value = "index") int index, @RequestParam(value = "gameId") int gameId) {
+		logger.info("GameId: " + String.valueOf(gameId));
+		Board board = game.makePlay(index, gameId);
 		String message = "";
 		if(game.isGameOver()) {
 			logger.info("Game Over");
 			message = game.getWinningMessage();
 		}
-		GameInfoDTO dto = new GameInfoDTO(game.board.getPits(),
-										game.board.getCurrentPlayerAsString(),
-										game.board.getPlayer1Score(),
-										game.board.getPlayer2Score(), message);
-
 		
-		return dto;
+		return board;
 	}
 }

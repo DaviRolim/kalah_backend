@@ -16,28 +16,28 @@ class KalahaGameApplicationTests {
 
 	@Test
 	void firstPlayerToPlayShouldBePlayer1() {
-		board.initialize();	
-		assertEquals(board.getCurrentPlayerAsString(), "Player1");
+		board.initializePits();	
+		assertEquals(board.getCurrentPlayer().ordinal(), 0);
 
 	}
 
 	@Test
 	void shouldChangePlayerTurnIfLastIndexIsNotOnHisKalah() {
-		board.initialize();
+		board.initializePits();
 		int lastIndex = board.moveUnits(0); // {0,5,5,5,5,4,0...}
 		assertEquals(board.shouldChangeCurrentPlayer(lastIndex), true);
 	}
 
 	@Test
 	void shouldNotChangePlayerTurnIfLastIndexIsOnHisKalah() {
-		board.initialize();
+		board.initializePits();
 		int lastIndex = board.moveUnits(2); // {4,4,0,5,5,5,1...}
 		assertEquals(board.shouldChangeCurrentPlayer(lastIndex), false);
 	}
 
 	@Test
 	void shouldReturnTrueIfPlayerCanCaptureUnitsFromOpponent() {
-		board.initialize();
+		board.initializePits();
 		int[] pitsToSet  = {4,4,4,4,0,5,1,5,5,5,4,4,4,0};
 		board.setPits(pitsToSet);
 		int lastIndex = board.moveUnits(0); // {0,5,5,5,1...} it was zero and now finished with 1 unit in pit
@@ -46,7 +46,7 @@ class KalahaGameApplicationTests {
 
 	@Test
 	void shouldCaptureUnitsIfPlayerCanCaptureUnitsFromOpponent() {
-		board.initialize();
+		board.initializePits();
 		int[] pitsToSet  = {6,2,6,0,7,6,1,0,6,1,1,1,8,3};
 		board.setPits(pitsToSet);
 		// Units on Kalah for player2 = 2
@@ -57,7 +57,7 @@ class KalahaGameApplicationTests {
 	}
 	@Test
 	void shouldBeGameOverIfOneOfThePlayersHaveAllPitsEmpty() {
-		board.initialize();
+		board.initializePits();
 		int[] pitsToSet  = {0,0,0,0,0,1,25,0,5,3,2,5,0,7};
 		board.setPits(pitsToSet);
 		board.moveUnits(5); // {0,5,5,5,1...} it was zero and now finished with 1 unit in pit
@@ -67,7 +67,7 @@ class KalahaGameApplicationTests {
 
 	@Test
 	void playerScoreShouldBeTheSameNumberAsKalahUnitsInPlayerPit() {
-		board.initialize();
+		board.initializePits();
 		int[] pitsToSet  = {0,0,0,0,0,1,25,0,5,3,2,5,0,7};
 		board.setPits(pitsToSet);
 		assertEquals(25, board.getPlayer1Score());
@@ -76,7 +76,7 @@ class KalahaGameApplicationTests {
 
 	@Test
 	void playerCantChoosePitFromOpositeSide() {
-		board.initialize(); // initialize and current player is Player1 (first 6 indexes)
+		board.initializePits(); // initializePits and current player is Player1 (first 6 indexes)
 		int[] pitsToSet  = {0,0,0,0,0,1,25,0,5,3,2,5,0,7};
 		board.setPits(pitsToSet);
 		assertEquals(false, board.isMoveValid(9));
@@ -84,7 +84,7 @@ class KalahaGameApplicationTests {
 
 	@Test
 	void playerCantChoosePitIfIPitHasNoUnits() {
-		board.initialize(); // initialize and current player is Player1 (first 6 indexes)
+		board.initializePits(); // initializePits and current player is Player1 (first 6 indexes)
 		int[] pitsToSet  = {0,0,0,0,0,1,25,0,5,3,2,5,0,7};
 		board.setPits(pitsToSet);
 		assertEquals(false, board.isMoveValid(0));
@@ -92,7 +92,7 @@ class KalahaGameApplicationTests {
 
 	@Test
 	void playerCanChoosePitIfItsTheirSideOfBoardAndHasUnitsInSelectedPit() {
-		board.initialize(); // initialize and current player is Player1 (first 6 indexes)
+		board.initializePits(); // initializePits and current player is Player1 (first 6 indexes)
 		int[] pitsToSet  = {0,0,0,0,0,1,25,0,5,3,2,5,0,7};
 		board.setPits(pitsToSet);
 		assertEquals(true, board.isMoveValid(5));
