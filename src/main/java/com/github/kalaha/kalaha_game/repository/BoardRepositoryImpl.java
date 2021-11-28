@@ -2,7 +2,7 @@ package com.github.kalaha.kalaha_game.repository;
 
 import com.github.kalaha.kalaha_game.domain.Board;
 import com.github.kalaha.kalaha_game.domain.BoardRepository;
-import com.github.kalaha.kalaha_game.domain.entities.KalahBoard;
+import com.github.kalaha.kalaha_game.repository.entities.KalahBoard;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,7 +10,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class BoardRepositoryImpl implements BoardRepository {
 
-    @Autowired private KalahBoardRepository kalahBoardRepository;
+    @Autowired
+    private KalahBoardRepository kalahBoardRepository;
 
     @Override
     public Board getByGameId(int id) {
@@ -21,9 +22,9 @@ public class BoardRepositoryImpl implements BoardRepository {
     @Override
     public int saveGameStatusAndGetId(Board board, int gameId) {
         KalahBoard kalahBoard;
-        if(gameId==0){
+        if (gameId == 0) {
             kalahBoard = new KalahBoard(mapArrayOfIntToString(board.getPits()));
-        } else{
+        } else {
             kalahBoard = kalahBoardRepository.getById(gameId);
             kalahBoard.setPits(mapArrayOfIntToString(board.getPits()));
             kalahBoard.setPlayerTurn(board.getCurrentPlayer().ordinal());
@@ -31,7 +32,6 @@ public class BoardRepositoryImpl implements BoardRepository {
         kalahBoardRepository.save(kalahBoard);
         return kalahBoard.getId();
 
-        
     }
 
     private int[] mapPitStringToArrayOfInt(String pitString) {
@@ -46,9 +46,9 @@ public class BoardRepositoryImpl implements BoardRepository {
     private String mapArrayOfIntToString(int[] pits) {
         String sPits = "";
         for (int i = 0; i < pits.length; i++) {
-            if(i==0) {
+            if (i == 0) {
                 sPits += String.valueOf(pits[i]);
-            } else{
+            } else {
                 sPits += "," + String.valueOf(pits[i]);
             }
         }
@@ -66,5 +66,4 @@ public class BoardRepositoryImpl implements BoardRepository {
         return board;
     }
 
-    
 }

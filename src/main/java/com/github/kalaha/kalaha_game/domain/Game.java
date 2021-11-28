@@ -6,7 +6,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class Game {
 
-    @Autowired BoardRepository boardRepository;
+    @Autowired
+    BoardRepository boardRepository;
 
     public Board startGame() {
         Board board = new Board();
@@ -22,20 +23,5 @@ public class Game {
         boardRepository.saveGameStatusAndGetId(board, gameId);
         return board;
     }
-
-    public boolean isGameOver() {
-        // return board.isGameOver();
-        return false;
-    }
-
-    public String getWinningMessage() {
-        // if(board.getPlayer1Score() > board.getPlayer2Score()) {
-        //     return "Congratulations! Player 1 has won!";
-        // } else {
-        //     return "Congratulations! Player 2 has won!";
-        // }
-        return "TODO";
-    }
-
 
 }
