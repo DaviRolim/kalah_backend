@@ -3,9 +3,13 @@ package com.github.kalaha.kalaha_game.repository;
 import com.github.kalaha.kalaha_game.domain.Board;
 import com.github.kalaha.kalaha_game.domain.BoardRepository;
 import com.github.kalaha.kalaha_game.repository.entities.KalahBoard;
+import com.github.kalaha.kalaha_game.utils.failures.Failure;
+import com.github.kalaha.kalaha_game.utils.failures.GameNotFoundFailure;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import io.vavr.control.Either;
 
 @Component
 public class BoardRepositoryImpl implements BoardRepository {
@@ -14,9 +18,13 @@ public class BoardRepositoryImpl implements BoardRepository {
     private KalahBoardRepository kalahBoardRepository;
 
     @Override
-    public Board getByGameId(int id) {
-        KalahBoard kalahBoard = kalahBoardRepository.getById(id);
-        return mapKalahBoardToBoard(kalahBoard);
+    public Either<Failure, Board> getByGameId(int id) {
+        try {
+            KalahBoard kalahBoard = kalahBoardRepository.getById(id);
+            return Either.right(mapKalahBoardToBoard(kalahBoard));
+        } catch (Exception e) {
+            return Either.left(new GameNotFoundFailure("Problem retrieving board for id " + id));
+        }
     }
 
     @Override

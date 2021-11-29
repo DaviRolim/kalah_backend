@@ -21,7 +21,7 @@ The backend for the game Kalaha using Java. The solution is deployed to AWS as a
 ### Another Option to Run Locally
 
 ```bash
-./gradlew bootRun
+./gradlew build
 ```
 
 and then run

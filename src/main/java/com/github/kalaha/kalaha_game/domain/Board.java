@@ -7,8 +7,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class Board {
 
-    private static final Logger logger = LoggerFactory.getLogger(Board.class);
-
     public static final int NUMBER_OF_PITS = 6;
     public static final int START_UNITS = 4;
 

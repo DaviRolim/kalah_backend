@@ -4,6 +4,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import com.github.kalaha.kalaha_game.domain.Board;
 import com.github.kalaha.kalaha_game.domain.Game;
+import com.github.kalaha.kalaha_game.utils.failures.Failure;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +14,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.vavr.control.Either;
+
 @RestController
 public class KalahController {
+
+	private static final Logger logger = LoggerFactory.getLogger(KalahController.class);
 
 	@Autowired
 	private Game game;
@@ -34,7 +39,12 @@ public class KalahController {
 	@CrossOrigin
 	@GetMapping("/play")
 	public Board play(@RequestParam(value = "index") int index, @RequestParam(value = "gameId") int gameId) {
-		Board board = game.makePlay(index, gameId);
-		return board;
+		Either<Failure, Board> result = game.makePlay(index, gameId);
+		if (result.isRight()) {
+			return result.get();
+		} else {
+			logger.info(result.getLeft().getMessage());
+			return game.startGame();
+		}
 	}
 }
