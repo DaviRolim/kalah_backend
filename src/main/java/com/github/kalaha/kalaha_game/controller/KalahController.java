@@ -3,7 +3,7 @@ package com.github.kalaha.kalaha_game.controller;
 import java.util.concurrent.atomic.AtomicLong;
 
 import com.github.kalaha.kalaha_game.domain.Board;
-import com.github.kalaha.kalaha_game.domain.Game;
+import com.github.kalaha.kalaha_game.domain.GameOrchestrator;
 import com.github.kalaha.kalaha_game.utils.failures.Failure;
 
 import org.slf4j.Logger;
@@ -22,7 +22,7 @@ public class KalahController {
 	private static final Logger logger = LoggerFactory.getLogger(KalahController.class);
 
 	@Autowired
-	private Game game;
+	private GameOrchestrator game;
 
 	@CrossOrigin
 	@GetMapping("/")

@@ -1,11 +1,9 @@
 package com.github.kalaha.kalaha_game.domain;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Board {
+public class Board implements GameRules {
 
     public static final int NUMBER_OF_PITS = 6;
     public static final int START_UNITS = 4;
@@ -174,7 +172,7 @@ public class Board {
         return totalPlayer2;
     }
 
-    private void storeRemainingUnits() {
+    public void storeRemainingUnits() {
         if (getTotalUnitsFromPlayer1Pit() == 0) {
             pits[kalahIndexPlayer2] += getTotalUnitsFromPlayer2Pit();
         } else {

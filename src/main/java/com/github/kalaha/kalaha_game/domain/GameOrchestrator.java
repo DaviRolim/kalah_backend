@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import io.vavr.control.Either;
 
 @Component
-public class Game {
+public class GameOrchestrator {
 
     @Autowired
     BoardRepository boardRepository;
