@@ -8,9 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-// TODO Should be BoardDAO and tablename can continue to be KalahBoard, move this to repository, nothing to do with domain
 @Entity
-public class KalahBoard {
+public class GameState {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -21,10 +20,10 @@ public class KalahBoard {
     @Column
     private int playerTurn = 0;
 
-    public KalahBoard() {
+    public GameState() {
     };
 
-    public KalahBoard(String pits) {
+    public GameState(String pits) {
         this.pits = pits;
     }
 
@@ -54,6 +53,6 @@ public class KalahBoard {
 
     @Override
     public String toString() {
-        return "KalahBoard [id=" + id + ", pits=" + pits + ", playerTurn=" + playerTurn + "]";
+        return "GameState [id=" + id + ", pits=" + pits + ", playerTurn=" + playerTurn + "]";
     }
 }

@@ -2,11 +2,10 @@ package com.github.kalaha.kalaha_game.repository;
 
 import com.github.kalaha.kalaha_game.domain.Board;
 import com.github.kalaha.kalaha_game.domain.BoardRepository;
-import com.github.kalaha.kalaha_game.repository.entities.KalahBoard;
+import com.github.kalaha.kalaha_game.repository.entities.GameState;
 import com.github.kalaha.kalaha_game.utils.failures.Failure;
 import com.github.kalaha.kalaha_game.utils.failures.GameNotFoundFailure;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import io.vavr.control.Either;
@@ -14,14 +13,17 @@ import io.vavr.control.Either;
 @Component
 public class BoardRepositoryImpl implements BoardRepository {
 
-    @Autowired
-    private KalahBoardRepository kalahBoardRepository;
+    private GameStateRepository gameStateRepository;
+
+    public BoardRepositoryImpl(GameStateRepository gameStateRepository) {
+        this.gameStateRepository = gameStateRepository;
+    }
 
     @Override
     public Either<Failure, Board> getByGameId(int id) {
         try {
-            KalahBoard kalahBoard = kalahBoardRepository.getById(id);
-            return Either.right(mapKalahBoardToBoard(kalahBoard));
+            GameState gameState = gameStateRepository.getById(id);
+            return Either.right(mapgameStateToBoard(gameState));
         } catch (Exception e) {
             return Either.left(new GameNotFoundFailure("Problem retrieving board for id " + id));
         }
@@ -29,16 +31,16 @@ public class BoardRepositoryImpl implements BoardRepository {
 
     @Override
     public int saveGameStatusAndGetId(Board board, int gameId) {
-        KalahBoard kalahBoard;
+        GameState gameState;
         if (gameId == 0) {
-            kalahBoard = new KalahBoard(mapArrayOfIntToString(board.getPits()));
+            gameState = new GameState(mapArrayOfIntToString(board.getPits()));
         } else {
-            kalahBoard = kalahBoardRepository.getById(gameId);
-            kalahBoard.setPits(mapArrayOfIntToString(board.getPits()));
-            kalahBoard.setPlayerTurn(board.getCurrentPlayer().ordinal());
+            gameState = gameStateRepository.getById(gameId);
+            gameState.setPits(mapArrayOfIntToString(board.getPits()));
+            gameState.setPlayerTurn(board.getCurrentPlayer().ordinal());
         }
-        kalahBoardRepository.save(kalahBoard);
-        return kalahBoard.getId();
+        gameStateRepository.save(gameState);
+        return gameState.getId();
 
     }
 
@@ -63,10 +65,10 @@ public class BoardRepositoryImpl implements BoardRepository {
         return sPits;
     }
 
-    private Board mapKalahBoardToBoard(KalahBoard kalahBoard) {
-        int id = kalahBoard.getId();
-        int[] pits = mapPitStringToArrayOfInt(kalahBoard.getPits());
-        int player = kalahBoard.getPlayerTurn();
+    private Board mapgameStateToBoard(GameState gameState) {
+        int id = gameState.getId();
+        int[] pits = mapPitStringToArrayOfInt(gameState.getPits());
+        int player = gameState.getPlayerTurn();
         Board board = new Board();
         board.setPits(pits);
         board.setCurrentPlayer(player);
